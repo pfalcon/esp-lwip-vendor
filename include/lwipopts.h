@@ -305,7 +305,7 @@
  * (requires NO_SYS==0)
  */
 #ifndef MEMP_NUM_SYS_TIMEOUT
-#define MEMP_NUM_SYS_TIMEOUT            6
+#define MEMP_NUM_SYS_TIMEOUT            8
 #endif
 
 /**
@@ -531,7 +531,7 @@
  * in this time, the whole packet is discarded.
  */
 #ifndef IP_REASS_MAXAGE
-#define IP_REASS_MAXAGE                 0
+#define IP_REASS_MAXAGE                 3
 #endif
 
 /**
@@ -541,7 +541,7 @@
  * packets even if the maximum amount of fragments is enqueued for reassembly!
  */
 #ifndef IP_REASS_MAX_PBUFS
-#define IP_REASS_MAX_PBUFS              0
+#define IP_REASS_MAX_PBUFS              10
 #endif
 
 /**
@@ -630,7 +630,7 @@
  * LWIP_RAW==1: Enable application layer to hook into the IP layer itself.
  */
 #ifndef LWIP_RAW
-#define LWIP_RAW                        0
+#define LWIP_RAW                        1
 #endif
 
 /**
@@ -771,7 +771,18 @@
 #ifndef LWIP_IGMP
 #define LWIP_IGMP                       1
 #endif
-
+/*
+   ----------------------------------
+   ---------- MDNS options ----------
+   ----------------------------------
+*/
+/**
+ * LWIP_MDNS==1: Turn on MDNS module.
+ */
+#ifndef LWIP_MDNS
+#define LWIP_MDNS                      1
+#endif
+/*
 /*
    ----------------------------------
    ---------- DNS options -----------
@@ -887,21 +898,21 @@
  * (2 * TCP_MSS) for things to work well
  */
 #ifndef TCP_WND
-#define TCP_WND                         (4 * TCP_MSS)
+#define TCP_WND                         (*(volatile uint32*)0x600011F0)
 #endif 
 
 /**
  * TCP_MAXRTX: Maximum number of retransmissions of data segments.
  */
 #ifndef TCP_MAXRTX
-#define TCP_MAXRTX                      3
+#define TCP_MAXRTX                      (*(volatile uint32*)0x600011E8)
 #endif
 
 /**
  * TCP_SYNMAXRTX: Maximum number of retransmissions of SYN segments.
  */
 #ifndef TCP_SYNMAXRTX
-#define TCP_SYNMAXRTX                   3
+#define TCP_SYNMAXRTX                   (*(volatile uint32*)0x600011E4)
 #endif
 
 /**
@@ -926,6 +937,7 @@
 #define TCP_QUEUE_OOSEQ                 0
 #endif
 
+#if 1
 /**
  * TCP_MSS: TCP Maximum segment size. (default is 536, a conservative default,
  * you might want to increase this.)
@@ -935,6 +947,7 @@
  */
 #ifndef TCP_MSS
 #define TCP_MSS                         1460
+#endif
 #endif
 
 /**
@@ -1081,7 +1094,7 @@
  * field.
  */
 #ifndef LWIP_NETIF_HOSTNAME
-#define LWIP_NETIF_HOSTNAME             0
+#define LWIP_NETIF_HOSTNAME             1
 #endif
 
 /**
